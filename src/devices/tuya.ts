@@ -1157,6 +1157,7 @@ const definitions: Definition[] = [
             tuya.whitelabel('TuYa', 'TS0207_water_leak_detector_3', 'Zigbee water leak sensor', ['_TYZB01_sqmd19i1']),
             tuya.whitelabel('TuYa', '899WZ', 'Water leak detector with 80DB Alarm', ['_TZ3000_mugyhz0q']),
             tuya.whitelabel('Niceboy', 'ORBIS Water Sensor', 'Water leak sensor', ['_TZ3000_awvmkayh']),
+            tuya.whitelabel('Cleverio', 'CZWS-100', 'Water leak detector', ['_TYZB01_0eaduw43']),
         ],
         toZigbee: [],
         configure: async (device, coordinatorEndpoint, logger) => {
@@ -1165,8 +1166,11 @@ const definitions: Definition[] = [
             await reporting.batteryPercentageRemaining(endpoint);
         },
         exposes: (device, options) => {
-            const exps: Expose[] = [e.water_leak(), e.battery_low(), e.battery()];
-            if (!device || device.manufacturerName !== '_TZ3000_mugyhz0q') {
+            const exps: Expose[] = [e.water_leak(), e.battery_low()];
+            if (!device || device.manufacturerName !== '_TYZB01_0eaduw43' ) {
+                exps.push(e.battery());
+            }
+            if (!device || device.manufacturerName !== '_TZ3000_mugyhz0q' || device.manufacturerName !== '_TYZB01_0eaduw43' ) {
                 exps.push(e.tamper());
             }
             exps.push(e.linkquality());
